@@ -59,6 +59,7 @@ section:nth-child(even) {
     cursor: pointer;
     font-size: 1.7rem;
     background: #fff;
+    margin-left: 2rem;
 }
 
 .btn span {
@@ -109,11 +110,16 @@ section:nth-child(even) {
     font-size: 1.7rem;
     color: var(--light-text);
     margin-left: 2rem;
+    
 }
 
 .header .navbar a:hover {
     color: var(--primary);
 }
+/* .header .navbar .a .btn:hover {
+    color: var(--primary);
+    
+} */
 
 /* Mobile Menu */
 #menu-btn {
