@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        #chat-container {
+            width: 400px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        #chat-box {
+            height: 300px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            max-width: 80%;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .user-message {
+            align-self: flex-end;
+            background-color: #007bff;
+            color: white;
+        }
+        .bot-message {
+            align-self: flex-start;
+            background-color: #e0e0e0;
+            color: #333;
+        }
+        #input-container {
+            display: flex;
+        }
+        #user-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        #send-btn {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        #loading {
+            display: none;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+        .emoji {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <div id="loading">Thinking...</div>
+        <div id="input-container">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+<!-- ...existing code... -->
+<script>
+    document.getElementById('send-btn').addEventListener('click', sendMessage);
+    document.getElementById('user-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') sendMessage();
+    });
+
+    let context = "I want minimal responses. Maintain a consistent conversation flow and mostly refer to medical responses.";
+
+    function sendMessage() {
+        const userInput = document.getElementById('user-input').value.trim();
+        if (!userInput) return;
+
+        appendMessage('user', `\u{1F464} ${userInput}`);
+        document.getElementById('user-input').value = '';
+        document.getElementById('loading').style.display = 'block';
+
+        const eventSource = new EventSource(
+            `/chat?user_input=${encodeURIComponent(userInput)}&context=${encodeURIComponent(context)}`
+        );
+
+        let botMessageElement = null; // track the current bot message element
+
+        // Accumulate incoming chunks in one message bubble
+        eventSource.onmessage = function(event) {
+            if (!event.data.trim()) return;
+            document.getElementById('loading').style.display = 'none';
+            if (!botMessageElement) {
+                botMessageElement = appendMessage('bot', '\u{1F916} ');
+            }
+            botMessageElement.innerHTML += event.data;
+        };
+
+        eventSource.onerror = function() {
+            eventSource.close();
+            document.getElementById('loading').style.display = 'none';
+            ;
+        };
+    }
+
+    function appendMessage(sender, content) {
+        const chatBox = document.getElementById('chat-box');
+        const msgElem = document.createElement('div');
+        msgElem.classList.add('message', `${sender}-message`);
+        msgElem.innerHTML = content;
+        chatBox.appendChild(msgElem);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        return msgElem; // return the element so we can modify it later
+    }
+</script>
+<!-- ...existing code... -->
+</body>
+</html>
