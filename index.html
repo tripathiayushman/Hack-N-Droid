@@ -28,7 +28,7 @@
         <a href="#upload" class="btn"> Try Now <span class="fas fa-chevron-right"></span> </a>
     </div>
     <div class="image">
-        <img src="image/heart.png" alt="Heart Image">
+        <img src="image/heart.png" alt="">
     </div>
 </section>
 
@@ -54,12 +54,39 @@
 
 <section class="about" id="about">
     <h1 class="heading"> <span>About</span> Us </h1>
-    <p>HeartGuard AI is committed to revolutionizing heart disease detection using artificial intelligence. Our mission is to provide accessible, fast, and accurate heart attack predictions for early intervention.</p>
+    <div class="row">
+        <div class="image">
+            <img src="image/about.svg" alt="">
+        </div>
+        <div class="content">
+            <h3>Who We Are</h3>
+            <p>HeartGuard AI is dedicated to revolutionizing heart disease detection through artificial intelligence, striving to provide accessible, fast, and accurate heart attack predictions for early intervention.  We combine expertise in cardiology, data science, and software engineering to develop cutting-edge AI algorithms that analyze diverse data sets, from medical history to real-time physiological data, to identify patterns and predict cardiac events with unprecedented accuracy.  Our mission is to shift from reactive intervention to proactive prevention, empowering individuals and healthcare providers with the tools they need to take control of cardiovascular health and ultimately save lives.</p>
+        </div>
 </section>
 
 <footer class="footer">
     <p>&copy; 2025 HeartGuard AI. All Rights Reserved.</p>
 </footer>
+<div id="chatbot-button" class="chatbot-button">
+    <i class="fas fa-comments"></i>
+</div>
+
+<div id="chatbot-window" class="chatbot-window">
+    <div class="chatbot-header">
+        <h3>Chatbot</h3>
+        <button id="close-chatbot" class="close-chatbot"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="chatbot-body">
+        <div id="chat-container">
+            <div id="chat-box"></div>
+            <div id="loading">Thinking...</div>
+            <div id="input-container">
+                <input type="text" id="user-input" placeholder="Type your message...">
+                <button id="send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

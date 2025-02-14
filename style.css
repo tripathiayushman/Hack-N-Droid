@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
 
 :root {
-    --primary: #590000; /* Changed from green to tech-style blue */
-    --dark: #535353;
+    --primary: #6d0000; /* Changed from green to tech-style blue */
+    --dark: #333;
     --light-text: #777;
-    --box-shadow: .5rem .5rem 0 rgba(0, 123, 255, .2);
+    --box-shadow: .5rem .5rem 0 rgba(255, 0, 0, 0.2);
     --text-shadow: .4rem .4rem 0 rgba(0, 0, 0, .2);
     --border: .2rem solid var(--primary);
 }
@@ -101,8 +101,8 @@ section:nth-child(even) {
 }
 
 .header .logo i {
-    font-size: 3rem;
     color: var(--primary);
+    font-size: 4rem;
 }
 
 .header .navbar a {
@@ -249,6 +249,17 @@ section:nth-child(even) {
     gap: 2rem;
 }
 
+.about .row .image { /* Added styling for the image container */
+    flex: 1 1 45rem; /* Same flex properties as content for balance */
+    overflow: hidden; /* To prevent image overflow if needed */
+}
+
+.about .row .image img { /* Styles the image itself */
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Prevents small space below image */
+}
+
 .about .row .content {
     flex: 1 1 45rem;
 }
@@ -256,12 +267,214 @@ section:nth-child(even) {
 .about .row .content h3 {
     font-size: 4rem;
     color: var(--dark);
+    margin-bottom: 1rem; /* Adds some spacing below the heading */
 }
 
 .about .row .content p {
     font-size: 1.5rem;
     color: var(--light-text);
     line-height: 1.8;
+    margin-bottom: 1.5rem; /* Adds spacing between paragraphs if there are multiple */
+}
+
+.about .row .content .btn { /* Styles the button if present */
+    display: inline-block; /* Makes it behave like a regular inline element */
+    padding: 1rem 2rem; /* Adjust padding as needed */
+    background-color: var(--primary-color); /* Use your primary color */
+    color: #fff; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    text-decoration: none; /* Remove underlines from links */
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.about .row .content .btn:hover {
+    background-color: var(--primary-color-darker); /* Darker shade on hover */
+}
+
+/* Chatbot Button */
+.chatbot-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--primary);
+    color: #fff;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.chatbot-button i {
+    font-size: 24px;
+}
+
+/* Chatbot Window */
+.chatbot-window {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.chatbot-window.active {
+    display: flex;
+}
+
+.chatbot-header {
+    background-color: var(--primary);
+    color: #fff;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chatbot-header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.close-chatbot {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.chatbot-body {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+/* Chatbot-specific styles */
+#chat-container {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+#chat-box {
+    flex: 1;
+    overflow-y: auto;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    max-width: 80%;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.user-message {
+    align-self: flex-end;
+    background-color: #007bff;
+    color: white;
+}
+
+.bot-message {
+    align-self: flex-start;
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+#input-container {
+    display: flex;
+}
+
+#user-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#send-btn {
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+#loading {
+    display: none;
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+}
+
+.emoji {
+    margin-right: 5px;
+}
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) { /* Example breakpoint */
+    .about .row .content h3 {
+        font-size: 3rem; /* Smaller heading on smaller screens */
+    }
+
+    .about .row .content p {
+        font-size: 1.4rem; /* Slightly smaller text */
+    }
+
+    .about .row .image {
+        flex: 1 1 100%; /* Image takes full width */
+    }
+    .about .row .content {
+        flex: 1 1 100%; /* Content takes full width */
+    }
+}
+
+@media (max-width: 480px) { /* Another example breakpoint */
+    .about .row .content h3 {
+        font-size: 2.5rem;
+    }
+
+    .about .row .content p {
+        font-size: 1.3rem;
+    }
 }
 
 /* ===== Footer ===== */
